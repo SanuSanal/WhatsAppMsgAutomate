@@ -1,9 +1,13 @@
+-- Latest python is required to run this code, preferably python 3.10
+
+-- install the following dependencies to use this project
+- open cmd, run each of the following command
 pip install openpyxl
 pip install keyboard
 pip install Pillow
 pip install pywin32
 
--- TO run the code
+-- To run the code
 navigate to the directory
 open cmd
 run "python app.py"
