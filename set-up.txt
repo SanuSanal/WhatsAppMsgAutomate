@@ -1,0 +1,4 @@
+pip install openpyxl
+pip install keyboard
+pip install Pillow
+pip install pywin32
