@@ -71,7 +71,6 @@ for row in range(2, sheet.max_row + 1):
     replace_reserved_chars_in_url(message)
     print(f'sending message, To: {mobile_number}, message: {message}, image location: {image_file_path}')
     webbrowser.open(f'whatsapp://send?phone={mobile_number}&text={replace_reserved_chars_in_url(message)}')
-    print(f'whatsapp://send?phone={mobile_number}&text={replace_reserved_chars_in_url(message)}')
     time.sleep(1)
     if image_exists:
         press_and_release('ctrl+v')
