@@ -24,11 +24,10 @@ def send_to_clipboard(filepath):
 
 
 def replace_reserved_chars_in_url(raw_message: str):
-    raw_message = raw_message.replace('&', '%26')
     raw_message = raw_message.replace('%', '%25')
+    raw_message = raw_message.replace('&', '%26')
     raw_message = raw_message.replace('$', '%24')
     raw_message = raw_message.replace('=', '%3D')
-    raw_message = raw_message.replace(' ', '%20')
     return raw_message
 
 
@@ -72,6 +71,7 @@ for row in range(2, sheet.max_row + 1):
     replace_reserved_chars_in_url(message)
     print(f'sending message, To: {mobile_number}, message: {message}, image location: {image_file_path}')
     webbrowser.open(f'whatsapp://send?phone={mobile_number}&text={replace_reserved_chars_in_url(message)}')
+    print(f'whatsapp://send?phone={mobile_number}&text={replace_reserved_chars_in_url(message)}')
     time.sleep(1)
     if image_exists:
         press_and_release('ctrl+v')
