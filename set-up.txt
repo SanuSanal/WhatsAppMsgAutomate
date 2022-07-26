@@ -2,3 +2,4 @@ openpyxl
 keyboard
 Pillow
 pywin32
+psutil

@@ -7,6 +7,7 @@ import webbrowser
 from keyboard import press_and_release
 import win32clipboard
 from PIL import Image
+import psutil
 
 
 def send_to_clipboard(filepath):
@@ -21,6 +22,35 @@ def send_to_clipboard(filepath):
     win32clipboard.SetClipboardData(win32clipboard.CF_DIB, data)
     win32clipboard.CloseClipboard()
 
+
+def replace_reserved_chars_in_url(raw_message: str):
+    raw_message = raw_message.replace('&', '%26')
+    raw_message = raw_message.replace('%', '%25')
+    raw_message = raw_message.replace('$', '%24')
+    raw_message = raw_message.replace('=', '%3D')
+    raw_message = raw_message.replace(' ', '%20')
+    return raw_message
+
+
+def check_if_whatsapp_is_running():
+    for proc in psutil.process_iter():
+        try:
+            # Check if process name contains the given name string.
+            if 'whatsapp' in proc.name().lower():
+                return True
+        except (psutil.NoSuchProcess, psutil.AccessDenied, psutil.ZombieProcess):
+            pass
+    return False
+
+
+if not check_if_whatsapp_is_running():
+    print('WhatsApp is not running.')
+    print('Opening installed WhatsApp')
+    webbrowser.open('whatsapp://')
+    time.sleep(7)
+    print('WhatsApp opened')
+else:
+    print('WhatsApp is running.')
 
 image_folder = 'imgs\\'
 
@@ -39,8 +69,9 @@ for row in range(2, sheet.max_row + 1):
             send_to_clipboard(image_file_path)
     except FileNotFoundError:
         image_file_path = 'No images found!'
+    replace_reserved_chars_in_url(message)
     print(f'sending message, To: {mobile_number}, message: {message}, image location: {image_file_path}')
-    webbrowser.open(f'whatsapp://send?phone={mobile_number}&text={message}')
+    webbrowser.open(f'whatsapp://send?phone={mobile_number}&text={replace_reserved_chars_in_url(message)}')
     time.sleep(1)
     if image_exists:
         press_and_release('ctrl+v')
