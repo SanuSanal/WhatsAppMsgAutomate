@@ -60,7 +60,7 @@ for row in range(2, sheet.max_row + 1):
     image_exists = False
     image_file_path = 'No image added'
     mobile_number = sheet.cell(row, 1).value
-    message = sheet.cell(row, 2).value
+    message = str(sheet.cell(row, 2).value)
     try:
         if type(sheet.cell(row, 3).value) is not NoneType:
             image_exists = True
