@@ -46,7 +46,7 @@ if not check_if_whatsapp_is_running():
     print('WhatsApp is not running.')
     print('Opening installed WhatsApp')
     webbrowser.open('whatsapp://')
-    time.sleep(7)
+    time.sleep(15)
     print('WhatsApp opened')
 else:
     print('WhatsApp is running.')
@@ -59,10 +59,13 @@ sheet = wb['Sheet1']
 for row in range(2, sheet.max_row + 1):
     image_exists = False
     image_file_path = 'No image added'
-    mobile_number = sheet.cell(row, 1).value
-    message = str(sheet.cell(row, 2).value)
+    if type(sheet.cell(row, 1).value) is not NoneType:
+        mobile_number = str(sheet.cell(row, 1).value) + str(sheet.cell(row, 2).value)
+    else:
+        mobile_number = sheet.cell(row, 2).value
+    message = str(sheet.cell(row, 3).value)
     try:
-        if type(sheet.cell(row, 3).value) is not NoneType:
+        if type(sheet.cell(row, 4).value) is not NoneType:
             image_exists = True
             image_file_path = image_folder + sheet.cell(row, 3).value
             send_to_clipboard(image_file_path)
