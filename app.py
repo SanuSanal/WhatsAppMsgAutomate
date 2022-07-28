@@ -67,7 +67,7 @@ for row in range(2, sheet.max_row + 1):
     try:
         if type(sheet.cell(row, 4).value) is not NoneType:
             image_exists = True
-            image_file_path = image_folder + sheet.cell(row, 3).value
+            image_file_path = image_folder + sheet.cell(row, 4).value
             send_to_clipboard(image_file_path)
     except FileNotFoundError:
         image_file_path = 'No images found!'
