@@ -56,26 +56,30 @@ image_folder = 'imgs\\'
 wb = xl.load_workbook('contacts.xlsx')
 sheet = wb['Sheet1']
 
-for row in range(2, sheet.max_row + 1):
-    image_exists = False
-    image_file_path = 'No image added'
-    if type(sheet.cell(row, 1).value) is not NoneType:
-        mobile_number = str(sheet.cell(row, 1).value) + str(sheet.cell(row, 2).value)
-    else:
-        mobile_number = sheet.cell(row, 2).value
-    message = str(sheet.cell(row, 3).value)
-    try:
-        if type(sheet.cell(row, 4).value) is not NoneType:
-            image_exists = True
-            image_file_path = image_folder + sheet.cell(row, 4).value
-            send_to_clipboard(image_file_path)
-    except FileNotFoundError:
-        image_file_path = 'No images found!'
-    replace_reserved_chars_in_url(message)
-    print(f'sending message, To: {mobile_number}, message: {message}, image location: {image_file_path}')
-    webbrowser.open(f'whatsapp://send?phone={mobile_number}&text={replace_reserved_chars_in_url(message)}')
-    time.sleep(3)
-    if image_exists:
-        press_and_release('ctrl+v')
-        time.sleep(1)
-    press_and_release('enter')
+if sheet.max_row < 2:
+    print('Contacts sheet is empty!! Update the sheet!!!')
+else:
+    for row in range(2, sheet.max_row + 1):
+        image_exists = False
+        image_file_path = 'No image added'
+        if type(sheet.cell(row, 1).value) is not NoneType:
+            mobile_number = str(sheet.cell(row, 1).value) + str(sheet.cell(row, 2).value)
+        else:
+            mobile_number = sheet.cell(row, 2).value
+        message = str(sheet.cell(row, 3).value)
+        try:
+            if type(sheet.cell(row, 4).value) is not NoneType:
+                image_exists = True
+                image_file_path = image_folder + sheet.cell(row, 4).value
+                send_to_clipboard(image_file_path)
+        except FileNotFoundError:
+            image_file_path = 'No images found!'
+        replace_reserved_chars_in_url(message)
+        print(f'sending message, To: {mobile_number}, message: {message}, image location: {image_file_path}')
+        webbrowser.open(f'whatsapp://send?phone={mobile_number}&text={replace_reserved_chars_in_url(message)}')
+        time.sleep(3)
+        if image_exists:
+            press_and_release('ctrl+v')
+            time.sleep(1)
+        press_and_release('enter')
+input('Press any key to close...')
